@@ -7,9 +7,10 @@ router.get('/', (req, res) => {
   // find all categories
   // be sure to include its associated Products
   Category.findAll({
+    attributes: ["id", "category_name"],
     include: {
-      mode:Product,
-      attributes: ['product_name']
+      mod:Product,
+      attributes: ["id", "product_name", "price", "stock", "category_id"]
     }
   })
   .then(categoryData => res.json(categoryData))
@@ -28,7 +29,7 @@ router.get('/:id', (req, res) => {
     },
     include: {
       model: Product,
-      attributes: ['product_name']
+      attributes: ["id", "product_name", "price", "stock", "category_id"]
     }
   })
   .then(categoryData => {
@@ -58,11 +59,16 @@ router.post('/', (req, res) => {
 
 router.put('/:id', (req, res) => {
   // update a category by its `id` value
-  Category.update(req.body, {
+  Category.update(
+    {
+      category_name: req.body.category_name,
+    },
+    {
     where: {
       id: req.params.id
-    }
-  })
+    },
+  }
+  )
   .then(categoryData => {
     if (!categoryData[0]){
       res.status(404).json({message: 'Id not found'});

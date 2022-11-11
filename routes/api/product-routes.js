@@ -7,13 +7,27 @@ const { Product, Category, Tag, ProductTag } = require('../../models');
 router.get('/', (req, res) => {
   // find all products
   // be sure to include its associated Category and Tag data
-  Product.findAll()
+  Product.findAll({
+    attributes: ["id", "product_name", "price", "stock", "category_id"],
+    include: [
+      {
+        model: Category,
+        attributes: ["id", "category_name"],
+      },
+      {
+        model: Tag,
+        through: ProductTag,
+        as: "tags",
+      },
+    ],
+  })
     .then((ecommerceDb) => res.json(ecommerceDb))
     .catch((err) => {
       console.log(err);
       res.status(500).json(err);
     });
 });
+
 
 // get one product
 router.get('/:id', (req, res) => {
@@ -25,11 +39,12 @@ router.get('/:id', (req, res) => {
     },
     include: [{
       model: Category,
-      attributes: ['category_name']
+      attributes: ['id', 'category_name']
     },
     {
       model: Tag,
-      attributes: ['tag_name']
+      through: ProductTag,
+      as: "tags",
     }
   ]
   })
@@ -126,10 +141,18 @@ router.delete('/:id', (req, res) => {
       id: req.params.id,
     },
   })
-  .then((productTagIds) => res.status(200).json(productTagIds))
-  .catch((err) =>{
+  .then((dbProductData) => {
+    if (!dbProductData) {
+      res
+        .status(404)
+        .json({ message: "There was no product found with this id." });
+      return;
+    }
+    res.json(dbProductData);
+  })
+  .catch((err) => {
     console.log(err);
-    res.status(400).json(err);
+    res.status(500).json(err);
   });
 });
 
