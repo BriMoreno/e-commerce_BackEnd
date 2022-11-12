@@ -1,7 +1,7 @@
 {
-  "name": "e-commerce_backend",
+  "name": "module-13-challenge-orm",
   "version": "1.0.0",
-  "description": "Your challenge is to build the back end for an e-commerce site. You’ll take a working Express.js API and configure it to use Sequelize to interact with a MySQL database.",
+  "description": "",
   "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
@@ -11,17 +11,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/BriMoreno/e-commerce_BackEnd.git"
+    "url": "git@work.github.com:coding-boot-camp/module-13-challenge-orm.git"
   },
+  "keywords": [],
   "author": "",
   "license": "ISC",
   "devDependencies": {
     "nodemon": "^2.0.3"
   },
-  "bugs": {
-    "url": "https://github.com/BriMoreno/e-commerce_BackEnd/issues"
-  },
-  "homepage": "https://github.com/BriMoreno/e-commerce_BackEnd#readme",
   "dependencies": {
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
